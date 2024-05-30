@@ -37,6 +37,11 @@
         .section {
             margin-top: 20px;
         }
+        .message {
+            margin-top: 10px;
+            font-weight: bold;
+            color: green;
+        }
     </style>
 </head>
 <body>
@@ -86,6 +91,7 @@
         <div class="form-group">
             <button onclick="submitOrder()">Submit</button>
         </div>
+        <div id="order-message" class="message"></div>
     </div>
 
     <script>
@@ -144,6 +150,8 @@
                 if (response.ok) {
                     const result = await response.json();
                     displayList('trades', result.trades);
+                    clearForm();
+                    displayMessage(orderData);
                 } else {
                     console.error('Error submitting order:', response.statusText);
                 }
@@ -152,11 +160,23 @@
             }
         }
 
+        function clearForm() {
+            document.getElementById('price').value = '';
+            document.getElementById('qty').value = '';
+            document.getElementById('side').value = 'Buy';
+            document.getElementById('order_type').value = 'GoodTilCancelled';
+        }
+
+        function displayMessage(orderData) {
+            const messageElement = document.getElementById('order-message');
+            messageElement.textContent = `Order (${orderData.side} ${orderData.qty} @ ${orderData.price} ${orderData.order_type}) submitted.`;
+        }
+
         // Initial fetch
         fetchData();
 
         // Refresh bids and asks every 10 seconds
-        setInterval(fetchData, 10000);
+        setInterval(fetchData, 5000);
     </script>
 </body>
 </html>
