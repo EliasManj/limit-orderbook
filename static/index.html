@@ -1,182 +1,708 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Order Book</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-        h1 {
-            font-size: 24px;
-        }
-        h2 {
-            font-size: 20px;
-        }
-        .form-group {
-            margin-bottom: 10px;
-        }
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-        }
-        .form-group input {
-            padding: 5px;
-            width: 200px;
-        }
-        .form-group select {
-            padding: 5px;
-            width: 210px;
-        }
-        .form-group button {
-            padding: 10px 20px;
-            font-size: 16px;
-        }
-        .section {
-            margin-top: 20px;
-        }
-        .message {
-            margin-top: 10px;
-            font-weight: bold;
-            color: green;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Limit Orderbook</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"> <!-- taste-skill-ignore: mono is the direction's explicit face for prices -->
+  <style>
+    /* Tokens: data-terminal (dark) */
+    :root {
+      --ground:   #171719;
+      --surface:  #131217;
+      --raised:   #212023;
+      --border:   #222224;
+      --rule:     #1b1a1f;
+      --text:     #ffffff;
+      --muted:    #8a8c92;
+      --accent:   #4a8ad6;
+      --pos:      #44a282;
+      --neg:      #e5566f;
+      --font:     "Public Sans", Inter, system-ui, sans-serif;
+      --mono:     "IBM Plex Mono", "JetBrains Mono", monospace; /* taste-skill-ignore: data-terminal direction - mono for all figures */
+      --r:        6px;
+      --rail-w:   50px;
+      --gap:      20px;
+      --pad:      28px;
+      /* darker button fills so white text passes 4.5:1 */
+      --btn-buy:  #27755a;
+      --btn-sell: #c4424f;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { color-scheme: dark; }
+    body {
+      margin: 0;
+      background: var(--ground);
+      color: var(--text);
+      font: 13px/1.5 var(--font);
+      -webkit-font-smoothing: antialiased;
+    }
+    h1, h2, h3, p, ul, ol { margin: 0; }
+    ul, ol { list-style: none; padding: 0; }
+    button, input, select { font: inherit; color: inherit; }
+    a { color: inherit; text-decoration: none; }
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 3px; }
+
+    /* Shell */
+    .app {
+      display: grid;
+      grid-template-columns: var(--rail-w) 1fr;
+      min-height: 100svh;
+    }
+
+    /* Icon rail */
+    .rail {
+      position: sticky; top: 0; height: 100svh;
+      display: flex; flex-direction: column; align-items: center;
+      padding: 14px 0;
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      z-index: 10;
+    }
+    .rail-mark {
+      width: 28px; height: 28px; margin-bottom: 16px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 4px; background: var(--accent);
+      color: #fff; font: 700 10px/1 var(--font);
+      flex-shrink: 0;
+    }
+    .rail-btn {
+      width: 36px; height: 36px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 4px; border: none; background: none;
+      cursor: pointer; color: var(--muted);
+      transition: color 120ms; position: relative;
+    }
+    .rail-btn:hover { color: var(--text); }
+    /* 1px accent line - the style's selection mark */
+    .rail-btn[aria-current="page"] {
+      color: var(--accent);
+      box-shadow: inset -1px 0 0 var(--accent); /* taste-skill-ignore: 1px inset accent selection line, not a resting shadow */
+    }
+    .rail-btn svg { width: 15px; height: 15px; }
+    .rail-end { margin-top: auto; }
+
+    /* Canvas */
+    .canvas { display: flex; flex-direction: column; height: 100svh; overflow: hidden; }
+
+    /* Topbar */
+    .topbar {
+      display: flex; align-items: center; gap: 16px;
+      height: 48px; padding: 0 var(--pad);
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .topbar-name { font: 600 14px/1 var(--font); letter-spacing: -.01em; margin: 0; }
+    .live {
+      width: 5px; height: 5px; border-radius: 50%;
+      background: var(--pos); flex-shrink: 0;
+      animation: blink 2.4s ease-in-out infinite;
+    }
+    @keyframes blink { 0%,100% { opacity:1 } 60% { opacity:.3 } }
+    .topbar-price {
+      font: 500 17px/1 var(--mono);
+      font-variant-numeric: tabular-nums;
+      letter-spacing: -.02em;
+    }
+    .topbar-lbl { font: 400 11px/1 var(--font); color: var(--muted); }
+    .topbar-spread { font: 400 11px/1 var(--mono); color: var(--muted); font-variant-numeric: tabular-nums; }
+
+    /* Main grid */
+    .main {
+      display: grid;
+      grid-template-columns: 1fr 336px;
+      grid-template-rows: 1fr;
+      gap: var(--gap);
+      padding: var(--gap) var(--pad);
+      flex: 1;
+      overflow: hidden;
+    }
+
+    /* Card */
+    .card {
+      background: var(--surface);
+      border-radius: var(--r);
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+    /* book card fills the full grid cell height */
+    .book-card { display: flex; flex-direction: column; }
+    .card-head {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 9px 14px; border-bottom: 1px solid var(--rule);
+    }
+    .clabel { font: 400 11px/1 var(--font); color: var(--muted); }
+    .cmeta  { font: 400 11px/1 var(--mono); color: var(--muted); font-variant-numeric: tabular-nums; }
+
+    /* Order book - two mirrored columns */
+    /*
+     * Asks (left): [Price | Qty]  - depth bar from left, red
+     * Bids (right): [Qty | Price] - depth bar from right, green
+     * Prices sit on the outer edges; quantities face the center separator.
+     * Depth bars fill from behind the price column outward.
+     */
+    .book { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr auto; flex: 1; overflow: hidden; }
+    .book-side { display: flex; flex-direction: column; overflow: hidden; }
+    .book-side + .book-side { border-left: 1px solid var(--rule); }
+
+    .bcols {
+      display: grid; padding: 5px 14px;
+      border-bottom: 1px solid var(--rule);
+      font: 400 11px/1 var(--font); color: var(--muted);
+      flex-shrink: 0;
+    }
+    .asks-side .bcols { grid-template-columns: 1fr auto; }
+    .bids-side .bcols { grid-template-columns: auto 1fr; }
+    .bids-side .bcols span:last-child { text-align: right; }
+
+    .book-body { flex: 1; overflow-y: auto; }
+
+    .brow {
+      display: grid; padding: 4px 14px;
+      position: relative; align-items: center;
+    }
+    .asks-side .brow { grid-template-columns: 1fr auto; }
+    .bids-side .brow { grid-template-columns: auto 1fr; }
+
+    .brow::before {
+      content: ''; position: absolute; top: 0; bottom: 0;
+      width: var(--d, 0%); pointer-events: none; border-radius: 2px;
+    }
+    .asks-side .brow::before { left: 0;  background: rgba(229,86,111,.1); }
+    .bids-side .brow::before { right: 0; background: rgba(68,162,130,.1); }
+
+    .brow span {
+      font: 400 12px/1 var(--mono);
+      font-variant-numeric: tabular-nums;
+      position: relative; z-index: 1;
+    }
+    .bids-side .brow span:last-child { text-align: right; }
+    .asks-side .brow:hover { background: rgba(229,86,111,.04); }
+    .bids-side .brow:hover { background: rgba(68,162,130,.04); }
+
+    .ask-p { color: var(--neg); }
+    .bid-p { color: var(--pos); }
+
+    /* Mid-price separator */
+    .book-mid {
+      grid-column: 1 / -1;
+      display: flex; align-items: center; justify-content: center; gap: 12px;
+      padding: 7px 14px;
+      background: var(--raised);
+      border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule);
+    }
+    .mid-price { font: 600 13px/1 var(--mono); font-variant-numeric: tabular-nums; }
+    .mid-spread { font: 400 11px/1 var(--font); color: var(--muted); }
+
+    /* Book stats footer */
+    .book-foot {
+      margin-top: auto;
+      display: flex; align-items: center; gap: 28px;
+      padding: 10px 16px;
+      border-top: 1px solid var(--rule);
+      flex-shrink: 0;
+    }
+    .bstat { display: flex; flex-direction: column; gap: 4px; }
+    .bstat-label { font: 400 11px/1 var(--font); color: var(--muted); }
+    .bstat-value { font: 500 12px/1 var(--mono); font-variant-numeric: tabular-nums; }
+    .bstat-value.pos { color: var(--pos); }
+    .bstat-value.neg { color: var(--neg); }
+    .bstat-imbalance { flex: 1; }
+    .imbalance-bar {
+      display: flex; height: 4px; border-radius: 2px; overflow: hidden;
+      background: var(--raised); margin-top: 6px;
+    }
+    .imbalance-fill { height: 100%; transition: width 400ms; }
+    .imbalance-fill.bid  { background: var(--pos); }
+    .imbalance-fill.ask  { background: var(--neg); }
+
+    /* Right panel */
+    .panel { display: flex; flex-direction: column; gap: var(--gap); overflow: hidden; }
+    .trades-card { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+    .trades-card #tbl { flex: 1; overflow-y: auto; }
+
+    /* Buy / Sell tabs */
+    .tabs { display: flex; border-bottom: 1px solid var(--rule); }
+    .tab {
+      flex: 1; padding: 8px; text-align: center;
+      font: 500 12px/1 var(--font); color: var(--muted);
+      border: none; background: none; cursor: pointer;
+      position: relative; transition: color 120ms;
+    }
+    /* 1px accent line - the style's selection mark, drawn via inset box-shadow */ /* taste-skill-ignore: 1px inset accent line, not a resting shadow */
+    .tab::after {
+      content: ''; position: absolute; bottom: -1px; left: 0; right: 0;
+      height: 1px; background: transparent; transition: background 120ms;
+    }
+    .tab[aria-selected="true"] { color: var(--text); }
+    .tab.buy[aria-selected="true"]::after  { background: var(--pos); }
+    .tab.sell[aria-selected="true"]::after { background: var(--neg); }
+
+    /* Order form */
+    .fbody { padding: 14px; display: flex; flex-direction: column; gap: 10px; }
+    .field { display: flex; flex-direction: column; gap: 4px; }
+    .fl { font: 400 11px/1 var(--font); color: var(--muted); }
+    .fi, .fs {
+      height: 32px; padding: 0 10px; width: 100%;
+      background: var(--raised); border: 1px solid var(--border);
+      border-radius: 4px; color: var(--text);
+      transition: border-color 120ms;
+    }
+    .fi { font: 400 12px/1 var(--mono); font-variant-numeric: tabular-nums; }
+    .fs { font: 400 12px/1 var(--font); cursor: pointer; appearance: none; }
+    .fi:disabled, .fs:disabled {
+      opacity: .4; cursor: not-allowed;
+    }
+    .sbtn {
+      height: 33px; width: 100%; margin-top: 2px;
+      border-radius: 4px; border: none;
+      font: 600 12px/1 var(--font); cursor: pointer;
+      transition: opacity 120ms;
+    }
+    .sbtn:hover  { opacity: .86; }
+    .sbtn:active { opacity: .72; }
+    .sbuy  { background: var(--btn-buy);  color: #fff; }
+    .ssell { background: var(--btn-sell); color: #fff; }
+    .fmsg { font: 400 10px/1.4 var(--font); padding: 0 14px 10px; min-height: 14px; color: var(--muted); }
+    .fmsg.ok  { color: var(--pos); }
+    .fmsg.err { color: var(--neg); }
+
+    /* Trades table */
+    table { width: 100%; border-collapse: collapse; }
+    thead th {
+      font: 400 10px/1 var(--font); color: var(--muted);
+      padding: 6px 14px; border-bottom: 1px solid var(--rule);
+      text-align: left;
+    }
+    thead th:not(:first-child) { text-align: right; }
+    tbody tr { border-bottom: 1px solid var(--rule); }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background: var(--raised); }
+    tbody td {
+      font: 400 12px/1 var(--mono);
+      font-variant-numeric: tabular-nums;
+      padding: 6px 14px;
+    }
+    tbody td:not(:first-child) { text-align: right; }
+    .tbuy  { color: var(--pos); }
+    .tsell { color: var(--neg); }
+    .empty {
+      padding: 18px 14px; text-align: center;
+      font: 400 12px/1 var(--font); color: var(--muted);
+    }
+
+    /* Simulation card */
+    .sim-row {
+      display: flex; align-items: center; gap: 8px;
+      padding: 12px 14px;
+    }
+    .sim-label { font: 400 11px/1 var(--font); color: var(--muted); flex-shrink: 0; }
+    .sim-select {
+      height: 30px; padding: 0 8px;
+      background: var(--raised); border: 1px solid var(--border);
+      border-radius: 4px; color: var(--text);
+      font: 400 12px/1 var(--font); cursor: pointer; appearance: none;
+      width: 80px; flex-shrink: 0;
+    }
+    .sim-select:focus { outline: none; border-color: var(--accent); }
+    .sim-gap { flex: 1; }
+    .sim-btn {
+      height: 30px; padding: 0 12px; border-radius: 4px; border: none;
+      font: 500 12px/1 var(--font); cursor: pointer; flex-shrink: 0;
+      transition: opacity 120ms, background 120ms, color 120ms;
+    }
+    .sim-btn:hover { opacity: .86; }
+    .sim-btn-run  { background: var(--raised); border: 1px solid var(--border); color: var(--muted); }
+    .sim-btn-run.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .sim-btn-clear { background: var(--raised); border: 1px solid var(--border); color: var(--neg); }
+    .sim-btn-clear:hover { background: var(--neg); color: #fff; opacity: 1; }
+
+    /* Phone layout */
+    @media (max-width: 768px) {
+      .app  { grid-template-columns: 1fr; }
+      .rail { display: none; }
+      .main { grid-template-columns: 1fr; padding: 14px; }
+    }
+  </style>
 </head>
 <body>
-    <h1>Order Book</h1>
+<div class="app">
 
-    <div class="section">
-        <h2>Bids</h2>
-        <ul id="bids"></ul>
+  <!-- Icon rail -->
+  <nav class="rail" aria-label="App navigation">
+    <div class="rail-mark" title="Limit Orderbook">LO</div>
+    <button class="rail-btn" aria-current="page" aria-label="Order book" title="Order book">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"
+           stroke-linecap="round" stroke-linejoin="round">
+        <rect x="1"   y="8" width="3" height="7" rx=".5"/>
+        <rect x="6.5" y="4" width="3" height="11" rx=".5"/>
+        <rect x="12"  y="1" width="3" height="14" rx=".5"/>
+      </svg>
+    </button>
+    <div class="rail-end">
+      <button class="rail-btn" aria-label="Settings" title="Settings">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round">
+          <circle cx="8" cy="8" r="2.2"/>
+          <path d="M8 1.5V3M8 13v1.5M1.5 8H3M13 8h1.5
+                   M3.4 3.4l1.1 1.1M11.5 11.5l1.1 1.1
+                   M3.4 12.6l1.1-1.1M11.5 4.5l1.1-1.1"/>
+        </svg>
+      </button>
     </div>
+  </nav>
 
-    <div class="section">
-        <h2>Asks</h2>
-        <ul id="asks"></ul>
-    </div>
+  <!-- Canvas -->
+  <div class="canvas">
 
-    <div class="section">
-        <h2>Trades</h2>
-        <ul id="trades"></ul>
-    </div>
+    <!-- Topbar -->
+    <header class="topbar">
+      <h1 class="topbar-name">Limit Orderbook</h1>
+      <div class="live" title="Live feed"></div>
+      <span class="topbar-price" id="t-mid">-</span>
+      <span class="topbar-lbl">mid</span>
+      <span class="topbar-spread" id="t-spread"></span>
+    </header>
 
-    <div class="section">
-        <h2>Input Form for New Orders</h2>
-        <div class="form-group">
-            <label for="price">Price</label>
-            <input type="number" id="price" step="0.01" required>
+    <!-- Main -->
+    <main class="main">
+
+      <!-- Order book card -->
+      <div class="card book-card">
+        <div class="card-head">
+          <span class="clabel">Order book</span>
+          <span class="cmeta" id="book-count">0 levels</span>
         </div>
-        <div class="form-group">
-            <label for="qty">Quantity</label>
-            <input type="number" id="qty" required>
+        <div class="book">
+          <!-- Asks: lowest ask at top, price on left, qty on right -->
+          <div class="book-side asks-side">
+            <div class="bcols"><span>Ask price</span><span>Qty</span></div>
+            <div class="book-body" id="asks"></div>
+          </div>
+          <!-- Bids: highest bid at top, qty on left, price on right (mirrored) -->
+          <div class="book-side bids-side">
+            <div class="bcols"><span>Qty</span><span>Bid price</span></div>
+            <div class="book-body" id="bids"></div>
+          </div>
         </div>
-        <div class="form-group">
-            <label for="side">Side</label>
-            <select id="side" required>
-                <option value="Buy">Buy</option>
-                <option value="Sell">Sell</option>
-            </select>
+        <div class="book-mid">
+          <span class="mid-price" id="b-mid">-</span>
+          <span class="mid-spread" id="b-spread"></span>
         </div>
-        <div class="form-group">
-            <label for="order_type">Order Type</label>
-            <select id="order_type" required>
-                <option value="GoodTilCancelled">GoodTilCancelled</option>
-                <option value="FillAndKill">FillAndKill</option>
-                <option value="FillOrKill">FillOrKill</option>
+        <div class="book-foot">
+          <div class="bstat">
+            <span class="bstat-label">Bid depth</span>
+            <span class="bstat-value pos" id="s-bid">-</span>
+          </div>
+          <div class="bstat">
+            <span class="bstat-label">Ask depth</span>
+            <span class="bstat-value neg" id="s-ask">-</span>
+          </div>
+          <div class="bstat bstat-imbalance">
+            <span class="bstat-label">Imbalance</span>
+            <div class="imbalance-bar">
+              <div class="imbalance-fill bid" id="ib-bid"></div>
+              <div class="imbalance-fill ask" id="ib-ask"></div>
+            </div>
+          </div>
+          <div class="bstat">
+            <span class="bstat-label">Levels</span>
+            <span class="bstat-value" id="s-levels">-</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right panel -->
+      <div class="panel">
+
+        <!-- Order form -->
+        <div class="card">
+          <div class="card-head"><span class="clabel">New order</span></div>
+          <div class="tabs" role="tablist">
+            <button class="tab buy"  role="tab" aria-selected="true"  id="tab-buy"  onclick="setTab('buy')">Buy</button>
+            <button class="tab sell" role="tab" aria-selected="false" id="tab-sell" onclick="setTab('sell')">Sell</button>
+          </div>
+          <div class="fbody">
+            <div class="field">
+              <label class="fl" for="f-price">Price</label>
+              <input class="fi" id="f-price" type="number" step="0.01" placeholder="0.00">
+            </div>
+            <div class="field">
+              <label class="fl" for="f-qty">Quantity</label>
+              <input class="fi" id="f-qty" type="number" min="1" placeholder="0">
+            </div>
+            <div class="field">
+              <label class="fl" for="f-type">Order type</label>
+              <select class="fs" id="f-type" onchange="onOrderTypeChange()">
+                <option value="GoodTilCancelled">Good Til Cancelled</option>
                 <option value="Market">Market</option>
+                <option value="FillOrKill">Fill or Kill</option>
+                <option value="FillAndKill">Fill and Kill</option>
+              </select>
+            </div>
+            <button class="sbtn sbuy" id="sbtn" onclick="submitOrder()">Place Buy Order</button>
+          </div>
+          <div class="fmsg" id="fmsg"></div>
+        </div>
+
+        <!-- Simulation controls -->
+        <div class="card">
+          <div class="sim-row">
+            <span class="sim-label">Interval</span>
+            <select class="sim-select" id="sim-interval" onchange="onIntervalChange()">
+              <option value="250">250 ms</option>
+              <option value="500" selected>500 ms</option>
+              <option value="1000">1 s</option>
+              <option value="2000">2 s</option>
+              <option value="5000">5 s</option>
             </select>
+            <div class="sim-gap"></div>
+            <button class="sim-btn sim-btn-run" id="sim-btn" onclick="toggleSimulate()">▶ Simulate</button>
+            <button class="sim-btn sim-btn-clear" onclick="clearAll()">Clear all</button>
+          </div>
         </div>
-        <div class="form-group">
-            <button onclick="submitOrder()">Submit</button>
+
+        <!-- Recent trades -->
+        <div class="card trades-card">
+          <div class="card-head">
+            <span class="clabel">Recent trades</span>
+            <span class="cmeta" id="tcnt">0</span>
+          </div>
+          <div id="tbl"><p class="empty">No trades yet.</p></div>
         </div>
-        <div id="order-message" class="message"></div>
-    </div>
 
-    <script>
-        const url = 'http://localhost:8080';
+      </div>
+    </main>
+  </div>
+</div>
 
-        // Fetch and display bids, asks, and trades
-        async function fetchData() {
-            try {
-                const [bidsRes, asksRes] = await Promise.all([
-                    fetch(`${url}/bids/`),
-                    fetch(`${url}/asks/`)
-                ]);
+<script>
+  const API = 'http://localhost:8080';
+  let activeSide = 'buy';
+  const trades = [];
 
-                const bids = await bidsRes.json();
-                const asks = await asksRes.json();
+  function onOrderTypeChange() {
+    const isMarket = document.getElementById('f-type').value === 'Market';
+    const priceInput = document.getElementById('f-price');
+    priceInput.disabled = isMarket;
+    if (isMarket) priceInput.value = '';
+  }
 
-                displayList('bids', bids);
-                displayList('asks', asks);
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            }
-        }
+  function setTab(s) {
+    activeSide = s;
+    document.getElementById('tab-buy').setAttribute('aria-selected',  s === 'buy');
+    document.getElementById('tab-sell').setAttribute('aria-selected', s === 'sell');
+    const b = document.getElementById('sbtn');
+    b.className = 'sbtn s' + s;
+    b.textContent = 'Place ' + (s === 'buy' ? 'Buy' : 'Sell') + ' Order';
+  }
 
-        function displayList(elementId, items) {
-            const listElement = document.getElementById(elementId);
-            listElement.innerHTML = '';
-            items.forEach(item => {
-                const listItem = document.createElement('li');
-                listItem.textContent = JSON.stringify(item);
-                listElement.appendChild(listItem);
-            });
-        }
+  function renderBook(bids, asks) {
+    // Sort defensively - API iterates a Go map (non-deterministic order)
+    asks.sort((a, b) => Number(a.Price) - Number(b.Price)); // lowest ask first
+    bids.sort((a, b) => Number(b.Price) - Number(a.Price)); // highest bid first
 
-        async function submitOrder() {
-            const price = document.getElementById('price').value;
-            const qty = document.getElementById('qty').value;
-            const side = document.getElementById('side').value;
-            const orderType = document.getElementById('order_type').value;
+    const maxQ = Math.max(...bids.map(b => b.Quantity), ...asks.map(a => a.Quantity), 1);
 
-            const orderData = {
-                side: side,
-                price: parseFloat(price),
-                qty: parseInt(qty),
-                order_type: orderType
-            };
+    // Asks: lowest price at top (API returns ascending), price left, qty right
+    document.getElementById('asks').innerHTML = asks.slice(0, 14).map(a => {
+      const d = Math.max(6, Math.round(a.Quantity / maxQ * 94));
+      return `<div class="brow" style="--d:${d}%">
+        <span class="ask-p">${Number(a.Price).toFixed(2)}</span>
+        <span>${a.Quantity}</span>
+      </div>`;
+    }).join('');
 
-            try {
-                const response = await fetch(`${url}/order/`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(orderData)
-                });
+    // Bids: highest price at top (API returns descending), qty left, price right (mirrored)
+    document.getElementById('bids').innerHTML = bids.slice(0, 14).map(b => {
+      const d = Math.max(6, Math.round(b.Quantity / maxQ * 94));
+      return `<div class="brow" style="--d:${d}%">
+        <span>${b.Quantity}</span>
+        <span class="bid-p">${Number(b.Price).toFixed(2)}</span>
+      </div>`;
+    }).join('');
 
-                if (response.ok) {
-                    const result = await response.json();
-                    displayList('trades', result.trades);
-                    clearForm();
-                    displayMessage(orderData);
-                } else {
-                    console.error('Error submitting order:', response.statusText);
-                }
-            } catch (error) {
-                console.error('Error submitting order:', error);
-            }
-        }
+    // Mid price and spread
+    const bestBid = bids.length ? Number(bids[0].Price)  : null;
+    const bestAsk = asks.length ? Number(asks[0].Price) : null;
+    if (bestBid !== null && bestAsk !== null) {
+      const mid    = ((bestBid + bestAsk) / 2).toFixed(2);
+      const spread = (bestAsk - bestBid).toFixed(2);
+      document.getElementById('t-mid').textContent    = mid;
+      document.getElementById('b-mid').textContent    = mid;
+      document.getElementById('t-spread').textContent = 'spread ' + spread;
+      document.getElementById('b-spread').textContent = 'spread ' + spread;
+    }
 
-        function clearForm() {
-            document.getElementById('price').value = '';
-            document.getElementById('qty').value = '';
-            document.getElementById('side').value = 'Buy';
-            document.getElementById('order_type').value = 'GoodTilCancelled';
-        }
+    const n = bids.length + asks.length;
+    document.getElementById('book-count').textContent = n + ' level' + (n !== 1 ? 's' : '');
 
-        function displayMessage(orderData) {
-            const messageElement = document.getElementById('order-message');
-            messageElement.textContent = `Order (${orderData.side} ${orderData.qty} @ ${orderData.price} ${orderData.order_type}) submitted.`;
-        }
+    // Depth footer stats
+    const bidDepth = bids.reduce((s, b) => s + b.Quantity, 0);
+    const askDepth = asks.reduce((s, a) => s + a.Quantity, 0);
+    const total    = bidDepth + askDepth || 1;
+    document.getElementById('s-bid').textContent    = bidDepth;
+    document.getElementById('s-ask').textContent    = askDepth;
+    document.getElementById('s-levels').textContent = bids.length + ' / ' + asks.length;
+    document.getElementById('ib-bid').style.width   = Math.round(bidDepth / total * 100) + '%';
+    document.getElementById('ib-ask').style.width   = Math.round(askDepth / total * 100) + '%';
+  }
 
-        // Initial fetch
-        fetchData();
+  function renderTrades() {
+    document.getElementById('tcnt').textContent = trades.length;
+    const el = document.getElementById('tbl');
+    if (!trades.length) { el.innerHTML = '<p class="empty">No trades yet.</p>'; return; }
+    el.innerHTML = '<table><thead><tr>'
+      + '<th>Side</th><th>Price</th><th>Qty</th><th>Time</th>'
+      + '</tr></thead><tbody>'
+      + trades.map(t =>
+          `<tr>`
+          + `<td class="t${t.side.toLowerCase()}">${t.side}</td>`
+          + `<td>${Number(t.price).toFixed(2)}</td>`
+          + `<td>${t.qty}</td>`
+          + `<td>${t.time}</td>`
+          + `</tr>`
+        ).join('')
+      + '</tbody></table>';
+  }
 
-        // Refresh bids and asks every 10 seconds
-        setInterval(fetchData, 5000);
-    </script>
+  async function fetchBook() {
+    try {
+      const [br, ar] = await Promise.all([
+        fetch(`${API}/bids/`),
+        fetch(`${API}/asks/`)
+      ]);
+      const [bids, asks] = await Promise.all([br.json(), ar.json()]);
+      renderBook(bids || [], asks || []);
+    } catch { /* retry on next tick */ }
+  }
+
+  async function submitOrder() {
+    const price = parseFloat(document.getElementById('f-price').value);
+    const qty   = parseInt(document.getElementById('f-qty').value);
+    const type  = document.getElementById('f-type').value;
+    const msg   = document.getElementById('fmsg');
+
+    const isMarket = type === 'Market';
+    if (!isMarket && (!price || price <= 0)) {
+      msg.textContent = 'Enter a valid price and quantity.';
+      msg.className = 'fmsg err';
+      return;
+    }
+    if (!qty || qty < 1) {
+      msg.textContent = 'Enter a valid quantity.';
+      msg.className = 'fmsg err';
+      return;
+    }
+
+    try {
+      const res = await fetch(`${API}/order/`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          side: activeSide === 'buy' ? 'Buy' : 'Sell',
+          price, qty, order_type: type
+        })
+      });
+      if (!res.ok) throw new Error();
+      const data = await res.json();
+      const now  = new Date().toLocaleTimeString('en-US', { hour12: false });
+
+      if (data.trades && data.trades.length) {
+        // Use the passive order's price as execution price
+        data.trades.forEach(t => {
+          const pt = activeSide === 'buy' ? t.AskTrade : t.BidTrade;
+          trades.unshift({ side: activeSide === 'buy' ? 'Buy' : 'Sell', price: pt.Price, qty: pt.Qty, time: now });
+        });
+        if (trades.length > 30) trades.length = 30;
+        renderTrades();
+        msg.textContent = data.trades.length + ' trade' + (data.trades.length > 1 ? 's' : '') + ' matched.';
+        msg.className = 'fmsg ok';
+      } else {
+        msg.textContent = 'Order placed. No immediate match.';
+        msg.className = 'fmsg ok';
+      }
+
+      document.getElementById('f-price').value = '';
+      document.getElementById('f-qty').value   = '';
+      await fetchBook();
+    } catch {
+      msg.textContent = 'Could not submit order.';
+      msg.className = 'fmsg err';
+    }
+
+    setTimeout(() => { msg.textContent = ''; msg.className = 'fmsg'; }, 4000);
+  }
+
+  /* Simulation */
+  let simTimer = null;
+
+  function toggleSimulate() {
+    const btn = document.getElementById('sim-btn');
+    if (simTimer) {
+      clearInterval(simTimer);
+      simTimer = null;
+      btn.textContent = '▶ Simulate';
+      btn.classList.remove('active');
+    } else {
+      btn.textContent = '■ Stop';
+      btn.classList.add('active');
+      const ms = parseInt(document.getElementById('sim-interval').value);
+      simTimer = setInterval(addRandomOrder, ms);
+    }
+  }
+
+  function onIntervalChange() {
+    if (!simTimer) return;
+    // Restart with new interval while running
+    clearInterval(simTimer);
+    const ms = parseInt(document.getElementById('sim-interval').value);
+    simTimer = setInterval(addRandomOrder, ms);
+  }
+
+  async function addRandomOrder() {
+    const midText = document.getElementById('t-mid').textContent;
+    const mid = parseFloat(midText) || 100;
+    const side = Math.random() > 0.5 ? 'Buy' : 'Sell';
+    // Price within ±3 of mid in 0.5 tick increments
+    const raw   = mid + (Math.random() * 6 - 3);
+    const price = Math.round(raw * 2) / 2;
+    const qty   = Math.floor(Math.random() * 90) + 10;
+
+    try {
+      const res = await fetch(`${API}/order/`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ side, price, qty, order_type: 'GoodTilCancelled' })
+      });
+      if (!res.ok) return;
+      const data = await res.json();
+      if (data.trades && data.trades.length) {
+        const now = new Date().toLocaleTimeString('en-US', { hour12: false });
+        data.trades.forEach(t => {
+          const pt = side === 'Buy' ? t.AskTrade : t.BidTrade;
+          trades.unshift({ side, price: pt.Price, qty: pt.Qty, time: now });
+        });
+        if (trades.length > 30) trades.length = 30;
+        renderTrades();
+      }
+      await fetchBook();
+    } catch { /* ignore network blips */ }
+  }
+
+  async function clearAll() {
+    try {
+      await fetch(`${API}/clear/`, { method: 'POST' });
+      trades.length = 0;
+      renderTrades();
+      await fetchBook();
+    } catch {}
+  }
+
+  fetchBook();
+  setInterval(fetchBook, 5000);
+</script>
 </body>
 </html>

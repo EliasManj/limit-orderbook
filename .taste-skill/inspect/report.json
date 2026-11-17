@@ -1,0 +1,1239 @@
+{
+ "url": "http://localhost:8080",
+ "at": "2026-10-26T20:46:20.599Z",
+ "allow": [],
+ "viewports": [
+  {
+   "width": 1440,
+   "height": 900,
+   "load": "load",
+   "screens": 1,
+   "filled": [
+    0.93
+   ],
+   "motion": {
+    "elements": 1,
+    "css": 1,
+    "transitions": 0,
+    "scripted": 0,
+    "videos": 0,
+    "playingVideos": 0
+   },
+   "metrics": {
+    "viewport": {
+     "w": 1440,
+     "h": 900
+    },
+    "page": {
+     "height": 900,
+     "screens": 1,
+     "words": 98,
+     "img": 0,
+     "video": 0,
+     "canvas": 0,
+     "svg": 2,
+     "sections": 0,
+     "horizontalOverflow": 0,
+     "overflowCulprits": [],
+     "uiFragments": 0,
+     "uiAbuse": false,
+     "realPictures": 0,
+     "videoCount": 0,
+     "uiPictures": 0,
+     "pictureSamples": [],
+     "blendText": 0,
+     "sideScrollers": 0,
+     "brokenImages": [],
+     "emoji": [],
+     "videosNoPoster": 0
+    },
+    "hero": {
+     "text": "Limit Orderbook",
+     "words": 2,
+     "chars": 15,
+     "lines": 1,
+     "size": 14,
+     "vw": 1,
+     "font": "Public Sans",
+     "weight": 600,
+     "tracking": -0.01,
+     "leading": 1,
+     "top": 17,
+     "tag": "h1",
+     "kind": "heading",
+     "align": "left",
+     "position": "left"
+    },
+    "h1": {
+     "text": "Limit Orderbook",
+     "words": 2,
+     "lines": 1,
+     "size": 14,
+     "font": "Public Sans"
+    },
+    "headings": [],
+    "headingSummary": {
+     "count": 0,
+     "maxLines": 0,
+     "over2Lines": 0,
+     "statements": 0,
+     "centered": 0,
+     "medianWords": null,
+     "mixedFontHeadings": 0
+    },
+    "type": {
+     "families": [
+      {
+       "family": "IBM Plex Mono",
+       "share": 0.52,
+       "mono": true
+      },
+      {
+       "family": "Public Sans",
+       "share": 0.48,
+       "mono": false
+      }
+     ],
+     "familyCount": 2,
+     "sizes": [
+      10,
+      11,
+      12,
+      13,
+      14,
+      17
+     ],
+     "sizeCount": 6,
+     "notLoaded": [],
+     "body": null,
+     "measureChars": null,
+     "max": {
+      "size": 17,
+      "vw": 1.2,
+      "font": "IBM Plex Mono",
+      "text": "100.00"
+     },
+     "monoShare": 0.52,
+     "monoProseShare": 0.52,
+     "monoFamilies": [
+      "IBM Plex Mono"
+     ],
+     "monoSamples": [
+      "100.00",
+      "spread 1.00",
+      "20 levels",
+      "100.50",
+      "32",
+      "101.00"
+     ],
+     "microLabels": 0,
+     "microLabelShare": 0,
+     "microSamples": [],
+     "upperShare": 0,
+     "centerShare": 0.1,
+     "smallText": 3
+    },
+    "eyebrows": [],
+    "numbered": [],
+    "color": {
+     "bodyBg": "#171719",
+     "bodyBgHsl": {
+      "h": 240,
+      "s": 0.04,
+      "l": 0.09
+     },
+     "dark": true,
+     "sectionBgs": [
+      {
+       "color": "#131217",
+       "top": 68,
+       "hsl": {
+        "h": 252,
+        "s": 0.12,
+        "l": 0.08
+       }
+      }
+     ],
+     "textColors": [
+      {
+       "color": "#8a8c92",
+       "share": 0.44
+      },
+      {
+       "color": "#ffffff",
+       "share": 0.25
+      },
+      {
+       "color": "#e5566f",
+       "share": 0.17
+      },
+      {
+       "color": "#44a282",
+       "share": 0.14
+      }
+     ],
+     "button": {
+      "bg": "#27755a",
+      "hsl": {
+       "h": 159,
+       "s": 0.5,
+       "l": 0.31
+      },
+      "fg": "#ffffff"
+     },
+     "lowContrast": []
+    },
+    "buttons": {
+     "count": 1,
+     "inHero": 1,
+     "radius": 4,
+     "height": 33,
+     "withShadow": 0,
+     "withGradient": 0,
+     "mono": 0,
+     "upper": 0,
+     "heroLabels": [
+      "Place Buy Order"
+     ]
+    },
+    "surfaces": {
+     "shadowStatic": 0,
+     "shadowOverlay": 0,
+     "shadowSamples": [],
+     "gradients": 0,
+     "scrims": 0,
+     "gradientSamples": [],
+     "gradientText": 0,
+     "hairlines": 11,
+     "hairlineSamples": [
+      "nav.rail 50px",
+      "header.topbar 1390px",
+      "div.card-head 976px",
+      "div.bcols 488px",
+      "div.book-side.bids-side 488px"
+     ],
+     "outlinedBoxes": 3,
+     "dashed": 0,
+     "blurred": 0,
+     "roundedBoxes": 3,
+     "boxRadius": 6,
+     "squareMedia": 0,
+     "roundedMedia": 0,
+     "mediaRadius": 0,
+     "textShadow": 0,
+     "cardRows": []
+    },
+    "heroMedia": [],
+    "nav": {
+     "links": 0,
+     "fixed": true,
+     "height": 900,
+     "floatingPill": false,
+     "blur": false
+    },
+    "fontsLoaded": [
+     "ibm plex mono",
+     "public sans"
+    ]
+   },
+   "layout": {
+    "viewport": {
+     "w": 1440,
+     "h": 900
+    },
+    "pageH": 900,
+    "margins": {
+     "left": 18,
+     "right": 43
+    },
+    "sections": [],
+    "gaps": [],
+    "h1s": [
+     {
+      "text": "Limit Orderbook",
+      "size": 14,
+      "top": 17,
+      "firstScreen": true
+     }
+    ],
+    "edgeText": [],
+    "edges": [
+     {
+      "x": 78,
+      "n": 1
+     }
+    ],
+    "leftBlocks": 1,
+    "bodySize": 16,
+    "stage": false,
+    "explains": false,
+    "slivers": [],
+    "voidShare": 0.35,
+    "voidBox": {
+     "x": 0,
+     "y": 360,
+     "w": 1080,
+     "h": 420
+    }
+   },
+   "app": {
+    "viewport": {
+     "w": 1440,
+     "h": 900
+    },
+    "dark": true,
+    "ground": "#171719",
+    "sidebar": null,
+    "topbar": null,
+    "canvas": {
+     "left": 7,
+     "right": 43
+    },
+    "hero": {
+     "text": "Limit Orderbook",
+     "words": 2,
+     "chars": 15,
+     "lines": 1,
+     "size": 14,
+     "vw": 1,
+     "font": "Public Sans",
+     "weight": 600,
+     "tracking": -0.01,
+     "leading": 1,
+     "top": 17,
+     "tag": "h1",
+     "kind": "heading",
+     "align": "left",
+     "position": "left"
+    },
+    "charts": 0,
+    "layout": {
+     "panels": 3,
+     "firstScreen": 3,
+     "ragged": [],
+     "voids": [
+      {
+       "gap": 484,
+       "at": 318,
+       "panel": "Order book"
+      },
+      {
+       "gap": 420,
+       "at": 459,
+       "panel": "Recent trades"
+      }
+     ]
+    },
+    "tiles": 0,
+    "panels": {
+     "count": 3,
+     "radii": [
+      [
+       6,
+       3
+      ]
+     ],
+     "heavyBorders": 0,
+     "borderSamples": [],
+     "heavyShadows": 0,
+     "softShadows": 0,
+     "shadowSamples": [],
+     "glass": 0
+    },
+    "chips": {
+     "count": 0,
+     "hues": 0,
+     "samples": []
+    },
+    "numbers": {
+     "cells": 0,
+     "leftAligned": 0,
+     "figures": 44,
+     "tabularShare": 1,
+     "kpiMax": 17
+    },
+    "rows": null,
+    "chartHues": 0,
+    "placeholders": [],
+    "type": {
+     "under13": 0.94,
+     "tiny": 0,
+     "tinySamples": [],
+     "sizes": [
+      10,
+      11,
+      12,
+      13,
+      14,
+      17
+     ]
+    },
+    "title": {
+     "text": "Limit Orderbook",
+     "size": 14,
+     "top": 17
+    },
+    "colourShare": 0.007
+   },
+   "consoleErrors": []
+  },
+  {
+   "width": 768,
+   "height": 1024,
+   "load": "load",
+   "screens": 1,
+   "filled": [
+    0.88
+   ],
+   "motion": {
+    "elements": 1,
+    "css": 1,
+    "transitions": 0,
+    "scripted": 0,
+    "videos": 0,
+    "playingVideos": 0
+   },
+   "metrics": {
+    "viewport": {
+     "w": 768,
+     "h": 1024
+    },
+    "page": {
+     "height": 1024,
+     "screens": 1,
+     "words": 97,
+     "img": 0,
+     "video": 0,
+     "canvas": 0,
+     "svg": 2,
+     "sections": 0,
+     "horizontalOverflow": 0,
+     "overflowCulprits": [],
+     "uiFragments": 0,
+     "uiAbuse": false,
+     "realPictures": 0,
+     "videoCount": 0,
+     "uiPictures": 0,
+     "pictureSamples": [],
+     "blendText": 0,
+     "sideScrollers": 0,
+     "brokenImages": [],
+     "emoji": [],
+     "videosNoPoster": 0
+    },
+    "hero": {
+     "text": "Limit Orderbook",
+     "words": 2,
+     "chars": 15,
+     "lines": 1,
+     "size": 14,
+     "vw": 1.8,
+     "font": "Public Sans",
+     "weight": 600,
+     "tracking": -0.01,
+     "leading": 1,
+     "top": 17,
+     "tag": "h1",
+     "kind": "heading",
+     "align": "left",
+     "position": "left"
+    },
+    "h1": {
+     "text": "Limit Orderbook",
+     "words": 2,
+     "lines": 1,
+     "size": 14,
+     "font": "Public Sans"
+    },
+    "headings": [],
+    "headingSummary": {
+     "count": 0,
+     "maxLines": 0,
+     "over2Lines": 0,
+     "statements": 0,
+     "centered": 0,
+     "medianWords": null,
+     "mixedFontHeadings": 0
+    },
+    "type": {
+     "families": [
+      {
+       "family": "IBM Plex Mono",
+       "share": 0.53,
+       "mono": true
+      },
+      {
+       "family": "Public Sans",
+       "share": 0.47,
+       "mono": false
+      }
+     ],
+     "familyCount": 2,
+     "sizes": [
+      11,
+      12,
+      13,
+      14,
+      17
+     ],
+     "sizeCount": 5,
+     "notLoaded": [],
+     "body": null,
+     "measureChars": null,
+     "max": {
+      "size": 17,
+      "vw": 2.2,
+      "font": "IBM Plex Mono",
+      "text": "100.00"
+     },
+     "monoShare": 0.53,
+     "monoProseShare": 0.53,
+     "monoFamilies": [
+      "IBM Plex Mono"
+     ],
+     "monoSamples": [
+      "100.00",
+      "spread 1.00",
+      "20 levels",
+      "100.50",
+      "32",
+      "101.00"
+     ],
+     "microLabels": 0,
+     "microLabelShare": 0,
+     "microSamples": [],
+     "upperShare": 0,
+     "centerShare": 0.1,
+     "smallText": 3
+    },
+    "eyebrows": [],
+    "numbered": [],
+    "color": {
+     "bodyBg": "#171719",
+     "bodyBgHsl": {
+      "h": 240,
+      "s": 0.04,
+      "l": 0.09
+     },
+     "dark": true,
+     "sectionBgs": [
+      {
+       "color": "#131217",
+       "top": 62,
+       "hsl": {
+        "h": 252,
+        "s": 0.12,
+        "l": 0.08
+       }
+      }
+     ],
+     "textColors": [
+      {
+       "color": "#8a8c92",
+       "share": 0.44
+      },
+      {
+       "color": "#ffffff",
+       "share": 0.25
+      },
+      {
+       "color": "#e5566f",
+       "share": 0.17
+      },
+      {
+       "color": "#44a282",
+       "share": 0.14
+      }
+     ],
+     "button": {
+      "bg": "#27755a",
+      "hsl": {
+       "h": 159,
+       "s": 0.5,
+       "l": 0.31
+      },
+      "fg": "#ffffff"
+     },
+     "lowContrast": []
+    },
+    "buttons": {
+     "count": 1,
+     "inHero": 1,
+     "radius": 4,
+     "height": 33,
+     "withShadow": 0,
+     "withGradient": 0,
+     "mono": 0,
+     "upper": 0,
+     "heroLabels": [
+      "Place Buy Order"
+     ]
+    },
+    "surfaces": {
+     "shadowStatic": 0,
+     "shadowOverlay": 0,
+     "shadowSamples": [],
+     "gradients": 0,
+     "scrims": 0,
+     "gradientSamples": [],
+     "gradientText": 0,
+     "hairlines": 10,
+     "hairlineSamples": [
+      "header.topbar 768px",
+      "div.card-head 738px",
+      "div.bcols 369px",
+      "div.book-side.bids-side 369px",
+      "div.bcols 368px"
+     ],
+     "outlinedBoxes": 3,
+     "dashed": 0,
+     "blurred": 0,
+     "roundedBoxes": 3,
+     "boxRadius": 6,
+     "squareMedia": 0,
+     "roundedMedia": 0,
+     "mediaRadius": 0,
+     "textShadow": 0,
+     "cardRows": []
+    },
+    "heroMedia": [],
+    "nav": {
+     "links": 0,
+     "fixed": true,
+     "height": 0,
+     "floatingPill": false,
+     "blur": false
+    },
+    "fontsLoaded": [
+     "ibm plex mono",
+     "public sans"
+    ]
+   },
+   "layout": {
+    "viewport": {
+     "w": 768,
+     "h": 1024
+    },
+    "pageH": 1024,
+    "margins": {
+     "left": 28,
+     "right": 29
+    },
+    "sections": [
+     {
+      "sel": "div.card.book-card",
+      "tag": "div",
+      "top": 62,
+      "height": 519,
+      "words": 64,
+      "media": 0,
+      "middle": 237,
+      "heading": null,
+      "left": 29,
+      "right": 29,
+      "textLeft": 29,
+      "textRight": 29,
+      "fullBleed": false,
+      "footer": false,
+      "hero": true,
+      "continues": false,
+      "pinned": false
+     },
+     {
+      "sel": "div.panel",
+      "tag": "div",
+      "top": 601,
+      "height": 409,
+      "words": 16,
+      "media": 0,
+      "middle": 0,
+      "heading": null,
+      "left": 15,
+      "right": 15,
+      "textLeft": 29,
+      "textRight": 188,
+      "fullBleed": false,
+      "footer": true,
+      "hero": false,
+      "continues": false,
+      "pinned": false
+     }
+    ],
+    "gaps": [],
+    "h1s": [
+     {
+      "text": "Limit Orderbook",
+      "size": 14,
+      "top": 17,
+      "firstScreen": true
+     }
+    ],
+    "edgeText": [],
+    "edges": [
+     {
+      "x": 28,
+      "n": 1
+     }
+    ],
+    "leftBlocks": 1,
+    "bodySize": 16,
+    "stage": false,
+    "explains": false,
+    "slivers": [],
+    "voidShare": 0,
+    "voidBox": null
+   },
+   "app": {
+    "viewport": {
+     "w": 768,
+     "h": 1024
+    },
+    "dark": true,
+    "ground": "#171719",
+    "sidebar": null,
+    "topbar": {
+     "h": 48
+    },
+    "canvas": {
+     "left": 28,
+     "right": 29
+    },
+    "hero": {
+     "text": "Limit Orderbook",
+     "words": 2,
+     "chars": 15,
+     "lines": 1,
+     "size": 14,
+     "vw": 1.8,
+     "font": "Public Sans",
+     "weight": 600,
+     "tracking": -0.01,
+     "leading": 1,
+     "top": 17,
+     "tag": "h1",
+     "kind": "heading",
+     "align": "left",
+     "position": "left"
+    },
+    "charts": 0,
+    "layout": {
+     "panels": 3,
+     "firstScreen": 3,
+     "ragged": [],
+     "voids": [
+      {
+       "gap": 191,
+       "at": 312,
+       "panel": "Order book"
+      }
+     ]
+    },
+    "tiles": 0,
+    "panels": {
+     "count": 3,
+     "radii": [
+      [
+       6,
+       3
+      ]
+     ],
+     "heavyBorders": 0,
+     "borderSamples": [],
+     "heavyShadows": 0,
+     "softShadows": 0,
+     "shadowSamples": [],
+     "glass": 0
+    },
+    "chips": {
+     "count": 0,
+     "hues": 0,
+     "samples": []
+    },
+    "numbers": {
+     "cells": 0,
+     "leftAligned": 0,
+     "figures": 44,
+     "tabularShare": 1,
+     "kpiMax": 17
+    },
+    "rows": null,
+    "chartHues": 0,
+    "placeholders": [],
+    "type": {
+     "under13": 0.94,
+     "tiny": 0,
+     "tinySamples": [],
+     "sizes": [
+      10,
+      11,
+      12,
+      13,
+      14,
+      17
+     ]
+    },
+    "title": {
+     "text": "Limit Orderbook",
+     "size": 14,
+     "top": 17
+    },
+    "colourShare": 0.034
+   },
+   "consoleErrors": []
+  },
+  {
+   "width": 390,
+   "height": 844,
+   "load": "load",
+   "screens": 1,
+   "filled": [
+    0.91
+   ],
+   "motion": {
+    "elements": 1,
+    "css": 1,
+    "transitions": 0,
+    "scripted": 0,
+    "videos": 0,
+    "playingVideos": 0
+   },
+   "metrics": {
+    "viewport": {
+     "w": 390,
+     "h": 844
+    },
+    "page": {
+     "height": 844,
+     "screens": 1,
+     "words": 97,
+     "img": 0,
+     "video": 0,
+     "canvas": 0,
+     "svg": 2,
+     "sections": 0,
+     "horizontalOverflow": 0,
+     "overflowCulprits": [],
+     "uiFragments": 0,
+     "uiAbuse": false,
+     "realPictures": 0,
+     "videoCount": 0,
+     "uiPictures": 0,
+     "pictureSamples": [],
+     "blendText": 0,
+     "sideScrollers": 0,
+     "brokenImages": [],
+     "emoji": [],
+     "videosNoPoster": 0
+    },
+    "hero": {
+     "text": "Limit Orderbook",
+     "words": 2,
+     "chars": 15,
+     "lines": 1,
+     "size": 14,
+     "vw": 3.6,
+     "font": "Public Sans",
+     "weight": 600,
+     "tracking": -0.01,
+     "leading": 1,
+     "top": 17,
+     "tag": "h1",
+     "kind": "heading",
+     "align": "left",
+     "position": "left"
+    },
+    "h1": {
+     "text": "Limit Orderbook",
+     "words": 2,
+     "lines": 1,
+     "size": 14,
+     "font": "Public Sans"
+    },
+    "headings": [],
+    "headingSummary": {
+     "count": 0,
+     "maxLines": 0,
+     "over2Lines": 0,
+     "statements": 0,
+     "centered": 0,
+     "medianWords": null,
+     "mixedFontHeadings": 0
+    },
+    "type": {
+     "families": [
+      {
+       "family": "IBM Plex Mono",
+       "share": 0.53,
+       "mono": true
+      },
+      {
+       "family": "Public Sans",
+       "share": 0.47,
+       "mono": false
+      }
+     ],
+     "familyCount": 2,
+     "sizes": [
+      11,
+      12,
+      13,
+      14,
+      17
+     ],
+     "sizeCount": 5,
+     "notLoaded": [],
+     "body": null,
+     "measureChars": null,
+     "max": {
+      "size": 17,
+      "vw": 4.4,
+      "font": "IBM Plex Mono",
+      "text": "100.00"
+     },
+     "monoShare": 0.53,
+     "monoProseShare": 0.53,
+     "monoFamilies": [
+      "IBM Plex Mono"
+     ],
+     "monoSamples": [
+      "100.00",
+      "spread 1.00",
+      "20 levels",
+      "100.50",
+      "32",
+      "101.00"
+     ],
+     "microLabels": 0,
+     "microLabelShare": 0,
+     "microSamples": [],
+     "upperShare": 0,
+     "centerShare": 0.1,
+     "smallText": 3
+    },
+    "eyebrows": [],
+    "numbered": [],
+    "color": {
+     "bodyBg": "#171719",
+     "bodyBgHsl": {
+      "h": 240,
+      "s": 0.04,
+      "l": 0.09
+     },
+     "dark": true,
+     "sectionBgs": [
+      {
+       "color": "#131217",
+       "top": 62,
+       "hsl": {
+        "h": 252,
+        "s": 0.12,
+        "l": 0.08
+       }
+      }
+     ],
+     "textColors": [
+      {
+       "color": "#8a8c92",
+       "share": 0.44
+      },
+      {
+       "color": "#ffffff",
+       "share": 0.25
+      },
+      {
+       "color": "#e5566f",
+       "share": 0.17
+      },
+      {
+       "color": "#44a282",
+       "share": 0.14
+      }
+     ],
+     "button": {
+      "bg": "#27755a",
+      "hsl": {
+       "h": 159,
+       "s": 0.5,
+       "l": 0.31
+      },
+      "fg": "#ffffff"
+     },
+     "lowContrast": []
+    },
+    "buttons": {
+     "count": 1,
+     "inHero": 1,
+     "radius": 4,
+     "height": 33,
+     "withShadow": 0,
+     "withGradient": 0,
+     "mono": 0,
+     "upper": 0,
+     "heroLabels": [
+      "Place Buy Order"
+     ]
+    },
+    "surfaces": {
+     "shadowStatic": 0,
+     "shadowOverlay": 0,
+     "shadowSamples": [],
+     "gradients": 0,
+     "scrims": 0,
+     "gradientSamples": [],
+     "gradientText": 0,
+     "hairlines": 7,
+     "hairlineSamples": [
+      "header.topbar 390px",
+      "div.card-head 360px",
+      "div.book-mid 360px",
+      "div.book-foot 360px",
+      "div.card-head 360px"
+     ],
+     "outlinedBoxes": 3,
+     "dashed": 0,
+     "blurred": 0,
+     "roundedBoxes": 3,
+     "boxRadius": 6,
+     "squareMedia": 0,
+     "roundedMedia": 0,
+     "mediaRadius": 0,
+     "textShadow": 0,
+     "cardRows": []
+    },
+    "heroMedia": [],
+    "nav": {
+     "links": 0,
+     "fixed": true,
+     "height": 0,
+     "floatingPill": false,
+     "blur": false
+    },
+    "fontsLoaded": [
+     "ibm plex mono",
+     "public sans"
+    ]
+   },
+   "layout": {
+    "viewport": {
+     "w": 390,
+     "h": 844
+    },
+    "pageH": 844,
+    "margins": {
+     "left": 28,
+     "right": 29
+    },
+    "sections": [
+     {
+      "sel": "div.card.book-card",
+      "tag": "div",
+      "top": 62,
+      "height": 339,
+      "words": 64,
+      "media": 0,
+      "middle": 48,
+      "heading": null,
+      "left": 29,
+      "right": 29,
+      "textLeft": 29,
+      "textRight": 29,
+      "fullBleed": false,
+      "footer": false,
+      "hero": true,
+      "continues": false,
+      "pinned": false
+     },
+     {
+      "sel": "div.panel",
+      "tag": "div",
+      "top": 421,
+      "height": 409,
+      "words": 16,
+      "media": 0,
+      "middle": 0,
+      "heading": null,
+      "left": 15,
+      "right": 15,
+      "textLeft": 29,
+      "textRight": 94,
+      "fullBleed": false,
+      "footer": true,
+      "hero": true,
+      "continues": false,
+      "pinned": false
+     }
+    ],
+    "gaps": [],
+    "h1s": [
+     {
+      "text": "Limit Orderbook",
+      "size": 14,
+      "top": 17,
+      "firstScreen": true
+     }
+    ],
+    "edgeText": [],
+    "edges": [
+     {
+      "x": 28,
+      "n": 1
+     }
+    ],
+    "leftBlocks": 1,
+    "bodySize": 16,
+    "stage": false,
+    "explains": false,
+    "slivers": [],
+    "voidShare": 0,
+    "voidBox": null
+   },
+   "app": {
+    "viewport": {
+     "w": 390,
+     "h": 844
+    },
+    "dark": true,
+    "ground": "#171719",
+    "sidebar": null,
+    "topbar": {
+     "h": 48
+    },
+    "canvas": {
+     "left": 28,
+     "right": 29
+    },
+    "hero": {
+     "text": "Limit Orderbook",
+     "words": 2,
+     "chars": 15,
+     "lines": 1,
+     "size": 14,
+     "vw": 3.6,
+     "font": "Public Sans",
+     "weight": 600,
+     "tracking": -0.01,
+     "leading": 1,
+     "top": 17,
+     "tag": "h1",
+     "kind": "heading",
+     "align": "left",
+     "position": "left"
+    },
+    "charts": 0,
+    "layout": {
+     "panels": 3,
+     "firstScreen": 3,
+     "ragged": [],
+     "voids": []
+    },
+    "tiles": 0,
+    "panels": {
+     "count": 3,
+     "radii": [
+      [
+       6,
+       3
+      ]
+     ],
+     "heavyBorders": 0,
+     "borderSamples": [],
+     "heavyShadows": 0,
+     "softShadows": 0,
+     "shadowSamples": [],
+     "glass": 0
+    },
+    "chips": {
+     "count": 0,
+     "hues": 0,
+     "samples": []
+    },
+    "numbers": {
+     "cells": 0,
+     "leftAligned": 0,
+     "figures": 44,
+     "tabularShare": 1,
+     "kpiMax": 17
+    },
+    "rows": null,
+    "chartHues": 0,
+    "placeholders": [],
+    "type": {
+     "under13": 0.94,
+     "tiny": 0,
+     "tinySamples": [],
+     "sizes": [
+      10,
+      11,
+      12,
+      13,
+      14,
+      17
+     ]
+    },
+    "title": {
+     "text": "Limit Orderbook",
+     "size": 14,
+     "top": 17
+    },
+    "colourShare": 0.031
+   },
+   "consoleErrors": []
+  }
+ ],
+ "findings": [
+  {
+   "level": "WARN",
+   "id": "hero-void",
+   "width": 1440,
+   "message": "35% of the first screen is one empty block (1080×420px at 0,360).",
+   "fix": "Place the void on purpose or fill it: move the picture, the film or one fact into it, grow the headline to meet it, or shrink the screen to its content. A void reads as placed only when something closes it on the far side and it is the screen's one rest."
+  },
+  {
+   "level": "WARN",
+   "id": "tiny-text",
+   "width": 1440,
+   "message": "94% of the text is under 13px.",
+   "fix": "Data and labels read at 13–14px; keep 11–12px for sublines and axis ticks.",
+   "alsoAt": [
+    768,
+    390
+   ]
+  },
+  {
+   "level": "WARN",
+   "id": "panel-void",
+   "width": 1440,
+   "message": "2 card(s) hold a blank band inside: 484px in \"Order book\", 420px in \"Recent trades\".",
+   "fix": "A card stretches to its neighbour only when it has content to fill. Keep a legend or a note directly under its chart (only an action or a total may sit at a stretched card's foot), let a short card keep its own height (align-items: start), and let a filtered block shrink to its rows."
+  }
+ ],
+ "images": [
+  {
+   "viewport": "desktop",
+   "width": 1440,
+   "fold": "/home/eliasmanj/code/go/limit-orderbook/.taste-skill/inspect/desktop-fold.jpg",
+   "pages": [
+    "/home/eliasmanj/code/go/limit-orderbook/.taste-skill/inspect/desktop-page-01.jpg"
+   ],
+   "film": []
+  },
+  {
+   "viewport": "tablet",
+   "width": 768,
+   "fold": "/home/eliasmanj/code/go/limit-orderbook/.taste-skill/inspect/tablet-fold.jpg",
+   "pages": [
+    "/home/eliasmanj/code/go/limit-orderbook/.taste-skill/inspect/tablet-page-01.jpg"
+   ],
+   "film": []
+  },
+  {
+   "viewport": "mobile",
+   "width": 390,
+   "fold": "/home/eliasmanj/code/go/limit-orderbook/.taste-skill/inspect/mobile-fold.jpg",
+   "pages": [
+    "/home/eliasmanj/code/go/limit-orderbook/.taste-skill/inspect/mobile-page-01.jpg"
+   ],
+   "film": []
+  }
+ ]
+}

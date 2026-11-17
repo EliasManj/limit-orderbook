@@ -318,8 +318,8 @@ func (ob *OrderBook) Size() int {
 
 func (ob *OrderBook) GetOrderInfos() OrderBookLevelInfos {
 	bids := []LevelInfo{}
-	for _, orders := range ob.Bids.Values() {
-		for _, order := range orders {
+	for _, key := range ob.Bids.Keys() {
+		for _, order := range ob.Bids.Values()[key] {
 			bids = append(bids, LevelInfo{
 				Price:    order.Price,
 				Quantity: order.remainingQty,
@@ -327,8 +327,8 @@ func (ob *OrderBook) GetOrderInfos() OrderBookLevelInfos {
 		}
 	}
 	asks := []LevelInfo{}
-	for _, orders := range ob.Asks.Values() {
-		for _, order := range orders {
+	for _, key := range ob.Asks.Keys() {
+		for _, order := range ob.Asks.Values()[key] {
 			asks = append(asks, LevelInfo{
 				Price:    order.Price,
 				Quantity: order.remainingQty,

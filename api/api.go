@@ -3,6 +3,7 @@ package api
 
 import (
 	"encoding/json"
+	"math/rand"
 	"net/http"
 
 	"github.com/EliasManj/orderbook/orderbook"
@@ -48,6 +49,33 @@ func GetAsks(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	asks := ob.GetOrderInfos().Asks
 	json.NewEncoder(w).Encode(asks)
+}
+
+// SeedOrders populates the orderbook with random bids and asks around a mid-price so the
+// UI has data to display immediately on startup.
+func SeedOrders() {
+	const (
+		midPrice  = 100.0
+		tickSize  = 0.5
+		numLevels = 10
+	)
+	for i := 1; i <= numLevels; i++ {
+		bidPrice := midPrice - float64(i)*tickSize
+		askPrice := midPrice + float64(i)*tickSize
+		bidQty := rand.Intn(91) + 10
+		askQty := rand.Intn(91) + 10
+
+		bid := orderbook.NewOrder("GoodTilCancelled", "Buy", bidPrice, bidQty)
+		ask := orderbook.NewOrder("GoodTilCancelled", "Sell", askPrice, askQty)
+		ob.AddOrder(*bid)
+		ob.AddOrder(*ask)
+	}
+}
+
+func ClearOrders(w http.ResponseWriter, r *http.Request) {
+	ob = orderbook.NewOrderBook()
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(map[string]string{"status": "cleared"})
 }
 
 func CreateOrder(w http.ResponseWriter, r *http.Request) {
