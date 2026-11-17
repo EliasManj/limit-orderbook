@@ -6,7 +6,7 @@ Basic implementation of an orderbook matching engine for limit orders written in
 * Sample website simulator for creating and monitoring Bids and Asks
 * Standard price time priority
 
-![Dashboard Video](static/example.gif)
+![Dashboard Demo](static/orderbook4.gif)
 
 ## Prerequisites
 
